@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Resume Analyzer</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>AI Resume Analyzer</h1>
+
+    <p class="subtitle">
+        Analyze your resume against a job description
+    </p>
+
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        <label>Upload Resume</label>
+
+        <input
+            type="file"
+            name="resume"
+            accept=".pdf,.docx"
+            required
+        >
+
+
+        <label>Job Description</label>
+
+        <textarea
+            name="job_description"
+            placeholder="Paste the job description here..."
+            required
+        ></textarea>
+
+
+        <button type="submit">
+            Analyze Resume
+        </button>
+
+    </form>
+
+
+    {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+    {% if result %}
+
+    <div class="result">
+
+        <h2>Resume Analysis</h2>
+
+
+        <div class="score">
+
+            <h3>Resume Match Score</h3>
+
+            <div class="score-number">
+                {{ result.score }}%
+            </div>
+
+        </div>
+
+
+        <h3>Skills Found in Resume</h3>
+
+        <div class="skills">
+
+            {% for skill in result.resume_skills %}
+
+                <span>{{ skill }}</span>
+
+            {% endfor %}
+
+        </div>
+
+
+        <h3>Matched Skills</h3>
+
+        <ul>
+
+            {% for skill in result.matched %}
+
+                <li>{{ skill }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+
+        <h3>Missing Skills</h3>
+
+        <ul>
+
+            {% for skill in result.missing %}
+
+                <li>{{ skill }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+
+        <h3>Suggestions</h3>
+
+        <ul>
+
+            {% for suggestion in result.suggestions %}
+
+                <li>{{ suggestion }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+</body>
+
+</html>
